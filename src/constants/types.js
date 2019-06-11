@@ -1,0 +1,3 @@
+export const SET_PERMISSIONS = 'SET_PERMISSIONS';
+export const SET_FACTOR_ITEM = 'SET_FACTOR_ITEM';
+export const SET_FACTOR = 'SET_FACTOR';

@@ -52,19 +52,16 @@ const BulkActionButtons = props => (
 
 export const CompanyList = props => (
     <List {...props} bulkActions={false} actions={<Actions/>}  title="مدیریت شرکت ها" >
-        <Datagrid selectMode="single" >
-            {/* <TextField source="logo" /> */}
+        <Datagrid selectMode="single" rowClick='edit'>
             <TextField label="کد" source="id" />
-            <TextField label="نام شرکت" source="name" />
+            <TextField label="نام شرکت" source="title" />
             <FunctionField label="وضعیت" render={record => record.status === "active" ? 'فعال' : 'غیرفعال'} />
-            <TextField source="managerName" label="نام مدیر" />
-            <TextField source="phone" label="تلفن شرکت" />
             <TextField source="mobile" label="موبایل" />
-            <TextField source="address" label="آدرس" />
+            <TextField source="phone" label="تلفن شرکت" />
+            <TextField source="username" label="نام کاربری" />
 
             <EditButton />
             <DeleteButton />
-            {/* <ShowButton /> */}
         </Datagrid>
     </List>
 );

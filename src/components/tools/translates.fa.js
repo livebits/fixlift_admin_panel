@@ -123,6 +123,11 @@ export default {
             companies_list: 'لیست شرکت ها',
             add_company: 'افزودن شرکت',
             roles: 'مدیریت نقش ها',
+        },
+        company: {
+            general: 'اطلاعات کلی',
+            contact: 'اطلاعات تماس',
+            user: 'اطلاعات کاربری',
         }
     },
 };

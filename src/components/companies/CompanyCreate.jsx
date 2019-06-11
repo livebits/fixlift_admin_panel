@@ -1,25 +1,101 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { ReferenceArrayField, SelectField, SingleFieldList, ChipField, Create, SimpleForm,
-     ReferenceInput, SelectInput, TextInput, DisabledInput, LongTextInput,
-     ReferenceArrayInput, SelectArrayInput, NumberInput } from 'react-admin';
+import React from 'react';
+import {
+    Create,
+    FormTab,
+    NumberInput,
+    ReferenceInput,
+    SelectInput,
+    TabbedForm,
+    TextInput,
+    required,
+} from 'react-admin';
+import withStyles from '@material-ui/core/styles/withStyles';
+import { minLength, number } from 'ra-core';
 
-export const CompanyCreate = props => (
-    <Create {...props} title="ثبت شرکت">
-        <SimpleForm>
-            <TextInput label="نام شرکت" source="name" />
-            {/* <TextInput label="لوگو شرکت" source="logo" /> */}
-            {/* <ImageInput source="logo" label="لوگو شرکت" accept="image/*" placeholder={<p>لوگو شرکت را انتخاب کنید</p>}>
-                <ImageField source="logo" title="title" />
-            </ImageInput> */}
-            <SelectInput source="status" label="وضعیت" choices={[
-                { id: 'active', name: 'فعال' },
-                { id: 'inactive', name: 'غیرفعال' }
-            ]} />
-            <TextInput label="نام مدیر مربوطه" source="managerName" />
-            <NumberInput label="تلفن شرکت" source="phone" />
-            <NumberInput label="موبایل" source="mobile" />
-            <LongTextInput  label="آدرس شرکت" source="address" />
-        </SimpleForm>
+export const styles = {
+    stock: { width: '5em' },
+    price: { width: '5em' },
+    mobile: { width: '8em' },
+    mobileFormGroup: { display: 'inline-block' },
+    phone: { width: '8em' },
+    phoneFormGroup: { display: 'inline-block', marginRight: 32 },
+};
+
+const validatePassword = [required(), minLength(6, 'ra.validation.minLength')];
+
+const CompanyCreate = ({ classes, ...props }) => (
+    <Create title="ثبت شرکت جدید" {...props}>
+        <TabbedForm>
+            <FormTab label="ra.company.general">
+                <TextInput
+                    autoFocus
+                    source="title"
+                    label="عنوان شرکت"
+                    options={{ fullWidth: true }}
+                    validate={required()}
+                />
+
+                <SelectInput 
+                    source="status" 
+                    label="وضعیت" 
+                    validate={required()}
+                    choices={[
+                        { id: 'active', name: 'فعال' },
+                        { id: 'inactive', name: 'غیرفعال' },
+                    ]} 
+                />
+
+            </FormTab>
+            <FormTab label="ra.company.user" path="user">
+                
+                <TextInput 
+                    label="نام کاربری" 
+                    source="username" 
+                    validate={required()} />
+
+                <TextInput 
+                    label="رمز عبور" 
+                    source="password" 
+                    type="password" 
+                    validate={validatePassword} />
+
+            <ReferenceInput label="نقش" source="role" reference="roles" validate={required()}>
+                <SelectInput optionText="name" />
+            </ReferenceInput>
+
+            </FormTab>
+            <FormTab label="ra.company.contact" path="contact">
+                
+                <TextInput
+                    source="address"
+                    label="آدرس"
+                    options={{ fullWidth: true }}
+                    validate={required()}
+                />
+
+                <TextInput
+                    source="mobile"
+                    label="موبایل"
+                    validate={[required(), number()]}
+                />
+                <TextInput
+                    source="phone"
+                    label="تلفن"
+                    validate={[required(), number()]}
+                />
+
+                <NumberInput
+                    source="latitude"
+                    label="طول جغرافیایی"
+                />
+                <NumberInput
+                    source="longitude"
+                    label="عرض جغرافیایی"
+                />
+
+            </FormTab>
+        </TabbedForm>
     </Create>
 );
+
+export default withStyles(styles)(CompanyCreate);

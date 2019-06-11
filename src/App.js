@@ -19,8 +19,8 @@ import appReducers from './reducers/';
 import customRoutes from './components/tools/routes';
 import { indigo, pink, red } from '@material-ui/core/colors';
 import { CompanyList } from './components/companies/CompanyList';
-import { CompanyEdit } from './components/companies/CompanyEdit';
-import { CompanyCreate } from './components/companies/CompanyCreate';
+import CompanyEdit from './components/companies/CompanyEdit';
+import CompanyCreate from './components/companies/CompanyCreate';
 import SupervisorAccountRounded from '@material-ui/icons/SupervisorAccount';
 
 import sagas from './components/tools/sagas';

@@ -3,11 +3,12 @@ import React from 'react';
 import { ReferenceArrayField, SelectField, SingleFieldList, ChipField, Create, SimpleForm,
      ReferenceInput, SelectInput, TextInput, DisabledInput, LongTextInput,
      ReferenceArrayInput, SelectArrayInput, Edit, ArrayInput } from 'react-admin';
+import { minLength, required } from 'ra-core';
 
-const required = (message = 'ra.validation.required') =>
-    (value, allValues, props) => value ? undefined : props.translate(message);
-const minLength = (min, message = 'ra.validation.minLength') =>
-    (value, allValues, props) => value && value.length < min ? props.translate(message, {min: min}) : undefined;
+// const required = (message = 'ra.validation.required') =>
+//     (value, allValues, props) => value ? undefined : props.translate(message);
+// const minLength = (min, message = 'ra.validation.minLength') =>
+//     (value, allValues, props) => value && value.length < min ? props.translate(message, {min: min}) : undefined;
  
 const validateUserCreation = (values, props) => {
     const errors = {};
@@ -19,7 +20,7 @@ const validateUserCreation = (values, props) => {
  
 const validateName = [required()];
 const validateUsername = [required()];
-const validatePassword = [required(), minLength(6)];
+const validatePassword = [required(), minLength(6, 'ra.validation.minLength')];
 
 const Title = ({ record }) => {
     return <span>ویراش {record ? `"${record.firstName} ${record.lastName}"` : ''}</span>;

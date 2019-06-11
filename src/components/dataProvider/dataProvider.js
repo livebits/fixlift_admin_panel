@@ -234,9 +234,14 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
         }
         case UPDATE:
             switch (resource) {
-                case 'Customers':
-                    params.data.username = params.data.mobile;
-                    url = `${API_URL}/AppUsers/${params.data.id}`;
+                case 'companies':
+
+                    if (params.data.location == null)  delete params.data.location;
+                    if (params.data.latitude == null)  delete params.data.latitude;
+                    if (params.data.longitude == null) delete params.data.longitude;
+                    if (params.data.logo == null)      delete params.data.logo;
+
+                    url = `${API_URL}/companies/${params.data.id}`;
                     break;
                 case 'Settings':
                 console.log(params);

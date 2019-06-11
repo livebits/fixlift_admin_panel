@@ -1,30 +1,100 @@
-// in src/users.js
-import React, { Fragment } from 'react';
-import { ReferenceArrayField, SelectField, SingleFieldList, ChipField, Create, SimpleForm,
-     ReferenceInput, SelectInput, TextInput, DisabledInput, LongTextInput,
-     ReferenceArrayInput, SelectArrayInput, Edit, ArrayInput, ImageInput, ImageField, NumberInput  } from 'react-admin';
+import React from 'react';
+import {
+    Create,
+    FormTab,
+    NumberInput,
+    ReferenceInput,
+    SelectInput,
+    TabbedForm,
+    TextInput,
+    required,
+    Edit,
+} from 'react-admin';
+import withStyles from '@material-ui/core/styles/withStyles';
+import { minLength, number } from 'ra-core';
 
-const Title = ({ record }) => {
-    return <span>ویراش شرکت {record ? `"${record.name}"` : ''}</span>;
+export const styles = {
+    stock: { width: '5em' },
+    price: { width: '5em' },
+    mobile: { width: '8em' },
+    mobileFormGroup: { display: 'inline-block' },
+    phone: { width: '8em' },
+    phoneFormGroup: { display: 'inline-block', marginRight: 32 },
 };
 
-export const CompanyEdit = props => (
-    <Edit {...props} title={<Title />}>
-        <SimpleForm>
-            <DisabledInput source="id" label="کد" />
-            <TextInput label="نام شرکت" source="name" />
-            {/* <TextInput label="لوگو شرکت" source="logo" /> */}
-            {/* <ImageInput source="logo" label="لوگو شرکت" accept="image/*" placeholder={<p>لوگو شرکت را انتخاب کنید</p>}>
-                <ImageField source="logo" title="title" />
-            </ImageInput> */}
-            <SelectInput source="status" label="وضعیت" choices={[
-                { id: 'active', name: 'فعال' },
-                { id: 'inactive', name: 'غیرفعال' }
-            ]} />
-            <TextInput label="نام مدیر مربوطه" source="managerName" />
-            <NumberInput label="تلفن شرکت" source="phone" />
-            <NumberInput label="موبایل" source="mobile" />
-            <LongTextInput  label="آدرس شرکت" source="address" />
-        </SimpleForm>
+const validatePassword = [required(), minLength(6, 'ra.validation.minLength')];
+
+const Title = ({ record }) => {
+    return <span>ویراش شرکت {record ? `"${record.title}"` : ''}</span>;
+};
+
+const CompanyEdit = ({ classes, ...props }) => (
+    <Edit title={<Title/>} {...props}>
+        <TabbedForm>
+            <FormTab label="ra.company.general">
+                <TextInput
+                    autoFocus
+                    source="title"
+                    label="عنوان شرکت"
+                    options={{ fullWidth: true }}
+                    validate={required()}
+                />
+
+                <SelectInput 
+                    source="status" 
+                    label="وضعیت" 
+                    validate={required()}
+                    choices={[
+                        { id: 'active', name: 'فعال' },
+                        { id: 'inactive', name: 'غیرفعال' },
+                    ]} 
+                />
+
+            </FormTab>
+            <FormTab label="ra.company.user" path="user">
+                
+                <TextInput 
+                    label="نام کاربری" 
+                    source="username" 
+                    validate={required()} />
+
+                <ReferenceInput label="نقش" source="role" reference="roles" >
+                    <SelectInput optionText="name"/>
+                </ReferenceInput>
+
+            </FormTab>
+            <FormTab label="ra.company.contact" path="contact">
+                
+                <TextInput
+                    source="address"
+                    label="آدرس"
+                    options={{ fullWidth: true }}
+                    validate={required()}
+                />
+
+                <TextInput
+                    source="mobile"
+                    label="موبایل"
+                    validate={[required(), number()]}
+                />
+                <TextInput
+                    source="phone"
+                    label="تلفن"
+                    validate={[required(), number()]}
+                />
+
+                <NumberInput
+                    source="latitude"
+                    label="طول جغرافیایی"
+                />
+                <NumberInput
+                    source="longitude"
+                    label="عرض جغرافیایی"
+                />
+
+            </FormTab>
+        </TabbedForm>
     </Edit>
 );
+
+export default withStyles(styles)(CompanyEdit);

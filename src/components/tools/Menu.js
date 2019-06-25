@@ -138,7 +138,7 @@ class Menu extends Component {
                         onClick={onMenuClick}
                     />
                     <MenuItemLink
-                        to={`/service_users`}
+                        to={`/service-users`}
                         primaryText={translate(`ra.menu.service_users`)}
                         leftIcon={<LabelIcon />}
                         onClick={onMenuClick}
@@ -146,6 +146,13 @@ class Menu extends Component {
                     <MenuItemLink
                         to={`/regions`}
                         primaryText={translate(`ra.menu.regions`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+
+                    <MenuItemLink
+                        to={`/checklist-categories`}
+                        primaryText={translate(`ra.menu.checklists_cats`)}
                         leftIcon={<LabelIcon />}
                         onClick={onMenuClick}
                     />

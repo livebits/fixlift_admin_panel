@@ -34,6 +34,27 @@ import RoleEdit from './components/roles/RoleEdit';
 import RoleCreate from './components/roles/RoleCreate';
 import preset from 'jss-preset-default';
 import { UserEdit } from './components/users/UserEdit';
+import { RegionList } from './components/regions/RegionList';
+import { RegionEdit } from './components/regions/RegionEdit';
+import { RegionCreate } from './components/regions/RegionCreate';
+import { SegmentEdit } from './components/segments/SegmentEdit';
+import { SegmentCreate } from './components/segments/SegmentCreate';
+import { SegmentList } from './components/segments/SegmentList';
+import { checklistCategoryList } from './components/checklistCategories/checklistCategoryList';
+import { checklistCategoryEdit } from './components/checklistCategories/checklistCategoryEdit';
+import { checklistCategoryCreate } from './components/checklistCategories/checklistCategoryCreate';
+import { checklistList } from './components/checklists/checklistList';
+import { checklistEdit } from './components/checklists/checklistEdit';
+import { checklistCreate } from './components/checklists/checklistCreate';
+import { UnitList } from './components/units/UnitList';
+import { UnitEdit } from './components/units/UnitEdit';
+import { UnitCreate } from './components/units/UnitCreate';
+import { ServiceUserList } from './components/serviceUsers/ServiceUserList';
+import { ServiceUserEdit } from './components/serviceUsers/ServiceUserEdit';
+import { ServiceUserCreate } from './components/serviceUsers/ServiceUserCreate';
+import { CustomerList } from './components/customers/CustomerList';
+import CustomerEdit from './components/customers/CustomerEdit';
+import CustomerCreate from './components/customers/CustomerCreate';
 
 // Configure JSS
 // const jss = create({plugins: [...jssPreset().plugins, rtl({opt: 'out'})]});
@@ -124,6 +145,15 @@ class App extends React.Component {
                 <Resource options={{ label: 'کاربران' }} name="users" list={UserList} edit={UserEdit} create={UserCreate} icon={SupervisorAccountRounded} />
                 <Resource options={{ label: 'نقش ها' }} name="roles" list={RoleList} edit={RoleEdit} create={RoleCreate}/>
                 <Resource options={{ label: 'شرکت ها' }} name="companies" list={CompanyList} edit={CompanyEdit} create={CompanyCreate} icon={SupervisorAccountRounded} />
+                
+                <Resource options={{ label: 'منطقه ها' }} name="regions" list={RegionList} edit={RegionEdit} create={RegionCreate} />
+                <Resource options={{ label: 'قطعات' }} name="segments" list={SegmentList} edit={SegmentEdit} create={SegmentCreate} />
+                <Resource options={{ label: 'دسته بندی چک لیست ها' }} name="checklist-categories" list={checklistCategoryList} edit={checklistCategoryEdit} create={checklistCategoryCreate} />
+                <Resource options={{ label: 'چک لیست ها' }} name="checklists" list={checklistList} edit={checklistEdit} create={checklistCreate} />
+                <Resource options={{ label: 'واحدها' }} name="units" list={UnitList} edit={UnitEdit} create={UnitCreate} />
+                <Resource options={{ label: 'سرویس کارها' }} name="service-users" list={ServiceUserList} edit={ServiceUserEdit} create={ServiceUserCreate} />
+                
+                <Resource options={{ label: 'مشتریان' }} name="customers" list={CustomerList} edit={CustomerEdit} create={CustomerCreate} />
 
                 {/* {permissions => [
 

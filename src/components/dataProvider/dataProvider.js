@@ -28,7 +28,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     const options = {
         headers : new Headers({
             Accept: 'application/json',
-            "X-Access-Token": localStorage.getItem('jwt_token')
+            "authorization": `Bearer ${localStorage.getItem('jwt_token')}`
         }),
     };    
     
@@ -233,7 +233,15 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             break;
         }
         case UPDATE:
-                url = `${API_URL}/${resource}/${params.data.id}`;
+            url = `${API_URL}/${resource}/${params.data.id}`;
+
+            Object.keys(params.data).map(function(key, index) {
+                
+                if(params.data[key] === null) {
+                    delete params.data[key];
+                }
+            });
+
             switch (resource) {
                 case 'companies':
 
@@ -287,6 +295,14 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             options.body = JSON.stringify(params.data);
             break;
         case CREATE:
+
+            Object.keys(params.data).map(function(key, index) {
+                
+                if(params.data[key] === null) {
+                    delete params.data[key];
+                }
+            });
+
             switch (resource) {
                 case 'Customers':
                     url = `${API_URL}/AppUsers`;

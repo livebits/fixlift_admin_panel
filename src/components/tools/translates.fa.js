@@ -129,6 +129,7 @@ export default {
             deal_template: 'فرم قرارداد',
             service_users: 'سرویس کارها',
             regions: 'منطقه ها',
+            checklists_cats: 'دسته بندی چک لیست',
             checklists: 'چک لیست',
             units: 'واحدها',
             password: 'تغییر رمز',
@@ -156,7 +157,11 @@ export default {
             general: 'اطلاعات کلی',
             contact: 'اطلاعات تماس',
             user: 'اطلاعات کاربری',
-        }
+        },
+        customer: {
+            general: 'اطلاعات کلی',
+            user: 'اطلاعات کاربری',
+        },
     },
 };
 

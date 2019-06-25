@@ -31,7 +31,7 @@ export default (type, params) => {
             })
             .then(data => {
                 console.log(data);
-                localStorage.setItem('jwt_token', data.id);
+                localStorage.setItem('jwt_token', data.token);
                 localStorage.setItem('role', data.role);
             })
             // .catch( err => {

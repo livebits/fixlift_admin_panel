@@ -8,6 +8,7 @@ import { Table, Paper, TableHead, TableRow, TableCell, FormControlLabel, Checkbo
 import SaveButton from './SaveButton';
 import { setPermissions } from '../../actions/permission';
 import { ROLE_ACTIONS } from '../../constants/role_actions';
+import { required } from 'ra-core';
 
 const styles = theme => ({
     root: {
@@ -19,9 +20,6 @@ const styles = theme => ({
       minWidth: 700,
     },
 });
-
-const required = (message = 'ra.validation.required') =>
-    (value, allValues, props) => value ? undefined : props.translate(message);
 
 const validateName = [required()];
 

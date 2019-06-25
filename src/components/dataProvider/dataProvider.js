@@ -233,6 +233,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             break;
         }
         case UPDATE:
+                url = `${API_URL}/${resource}/${params.data.id}`;
             switch (resource) {
                 case 'companies':
 
@@ -241,7 +242,12 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     if (params.data.longitude == null) delete params.data.longitude;
                     if (params.data.logo == null)      delete params.data.logo;
 
-                    url = `${API_URL}/companies/${params.data.id}`;
+                    // url = `${API_URL}/companies/${params.data.id}`;
+                    break;
+                case 'users':
+
+                    if (params.data.lastName == null)  delete params.data.lastName;
+
                     break;
                 case 'Settings':
                 console.log(params);

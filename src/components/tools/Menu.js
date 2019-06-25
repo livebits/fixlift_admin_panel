@@ -32,6 +32,13 @@ class Menu extends Component {
     state = {
         menuUsers: false,
         menuCompanies: false,
+        menuSettings: false,
+        menuDeals: false,
+        menuCustomers: false,
+        menuServices: false,
+        menuDamages: false,
+        menuEmergencies: false,
+        menuFinancial: false,
     };
 
     static propTypes = {
@@ -50,6 +57,12 @@ class Menu extends Component {
             <div>
                 {' '}
                 <DashboardMenuItem onClick={onMenuClick} />
+                <MenuItemLink
+                    to={`/schedules`}
+                    primaryText={translate(`ra.menu.schedules`)}
+                    leftIcon={<LabelIcon />}
+                    onClick={onMenuClick}
+                />
                 <SubMenu
                     handleToggle={() => this.handleToggle('menuUsers')}
                     isOpen={this.state.menuUsers}
@@ -97,6 +110,186 @@ class Menu extends Component {
                         onClick={onMenuClick}
                     />
                 </SubMenu>
+                
+                <SubMenu
+                    handleToggle={() => this.handleToggle('menuSettings')}
+                    isOpen={this.state.menuSettings}
+                    sidebarIsOpen={open}
+                    name="ra.menu.settings"
+                    icon={<LabelIcon />}
+                >
+                    <MenuItemLink
+                        to={`/msg_tplt`}
+                        primaryText={translate(`ra.menu.message_templates`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/segments`}
+                        primaryText={translate(`ra.menu.segments`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+
+                    <MenuItemLink
+                        to={`/deal_tplt`}
+                        primaryText={translate(`ra.menu.deal_template`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/service_users`}
+                        primaryText={translate(`ra.menu.service_users`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/regions`}
+                        primaryText={translate(`ra.menu.regions`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/checklists`}
+                        primaryText={translate(`ra.menu.checklists`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/units`}
+                        primaryText={translate(`ra.menu.units`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/password`}
+                        primaryText={translate(`ra.menu.password`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                </SubMenu>
+
+                <SubMenu
+                    handleToggle={() => this.handleToggle('menuDeals')}
+                    isOpen={this.state.menuDeals}
+                    sidebarIsOpen={open}
+                    name="ra.menu.deals_mgmt"
+                    icon={<LabelIcon />}
+                >
+                    <MenuItemLink
+                        to={`/deals`}
+                        primaryText={translate(`ra.menu.deals_list`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/deals/create`}
+                        primaryText={translate(`ra.menu.add_deal`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/deals/archive`}
+                        primaryText={translate(`ra.menu.deals_archive`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                </SubMenu>
+                <SubMenu
+                    handleToggle={() => this.handleToggle('menuCustomers')}
+                    isOpen={this.state.menuCustomers}
+                    sidebarIsOpen={open}
+                    name="ra.menu.customers_mgmt"
+                    icon={<LabelIcon />}
+                >
+                    <MenuItemLink
+                        to={`/customers`}
+                        primaryText={translate(`ra.menu.customers_list`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/customers/create`}
+                        primaryText={translate(`ra.menu.add_customer`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                </SubMenu>
+                <SubMenu
+                    handleToggle={() => this.handleToggle('menuServices')}
+                    isOpen={this.state.menuServices}
+                    sidebarIsOpen={open}
+                    name="ra.menu.services_mgmt"
+                    icon={<LabelIcon />}
+                >
+                    <MenuItemLink
+                        to={`/services`}
+                        primaryText={translate(`ra.menu.services_list`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/services/create`}
+                        primaryText={translate(`ra.menu.add_service`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                </SubMenu>
+                <SubMenu
+                    handleToggle={() => this.handleToggle('menuDamages')}
+                    isOpen={this.state.menuDamages}
+                    sidebarIsOpen={open}
+                    name="ra.menu.damages_mgmt"
+                    icon={<LabelIcon />}
+                >
+                    <MenuItemLink
+                        to={`/damages`}
+                        primaryText={translate(`ra.menu.damages_list`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/damages/create`}
+                        primaryText={translate(`ra.menu.add_damage`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                </SubMenu>
+                <SubMenu
+                    handleToggle={() => this.handleToggle('menuEmergencies')}
+                    isOpen={this.state.menuEmergencies}
+                    sidebarIsOpen={open}
+                    name="ra.menu.emergencies_mgmt"
+                    icon={<LabelIcon />}
+                >
+                    <MenuItemLink
+                        to={`/emergencies`}
+                        primaryText={translate(`ra.menu.emergencies_list`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                    <MenuItemLink
+                        to={`/emergencies/create`}
+                        primaryText={translate(`ra.menu.add_emergency`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                </SubMenu>
+                <SubMenu
+                    handleToggle={() => this.handleToggle('menuFinancial')}
+                    isOpen={this.state.menuFinancial}
+                    sidebarIsOpen={open}
+                    name="ra.menu.financials_mgmt"
+                    icon={<LabelIcon />}
+                >
+                    <MenuItemLink
+                        to={`/financials`}
+                        primaryText={translate(`ra.menu.financials_list`)}
+                        leftIcon={<LabelIcon />}
+                        onClick={onMenuClick}
+                    />
+                </SubMenu>
+
                 {/* <MenuItemLink
                     to={`/reviews`}
                     primaryText={translate(`resources.reviews.name`, {

@@ -13,9 +13,7 @@ import EditButton from './EditButton';
 
 import { setPermissions } from '../../actions/permission';
 import { ROLE_ACTIONS } from '../../constants/role_actions';
-
-const required = (message = 'ra.validation.required') =>
-    (value, allValues, props) => value ? undefined : props.translate(message);
+import { required } from 'ra-core';
 
 const validateName = [required()];
 

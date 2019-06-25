@@ -16,20 +16,20 @@ const styles = {
         paddingLeft: '1rem',
     },
     listItemText: {
-        paddingLeft: 2,
-        paddingRight: 5,
-        textAlign: 'right',
+        paddingLeft: 0,
+        paddingRight: 0,
+        // textAlign: 'right',
         fontSize: '1rem',
     },
     sidebarIsOpen: {
-        paddingLeft: 25,
-        paddingRight: 10,
-        transition: 'padding-left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms',
+        paddingLeft: 0,
+        paddingRight: 0,
+        // transition: 'padding-left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms',
     },
     sidebarIsClosed: {
         paddingLeft: 0,
-        paddingRight: 10,
-        transition: 'padding-left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms',
+        paddingRight: 0,
+        // transition: 'padding-left 195ms cubic-bezier(0.4, 0, 0.6, 1) 0ms',
     },
 };
 

@@ -12,6 +12,7 @@ import {
 } from 'react-admin';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { minLength, number } from 'ra-core';
+import CustomMapInput from '../CustomComponents/CustomMapInput';
 
 export const styles = {
     stock: { width: '5em' },
@@ -83,15 +84,18 @@ const CompanyEdit = ({ classes, ...props }) => (
                     validate={[required(), number()]}
                 />
 
-                <NumberInput
+                {/* <NumberInput
                     source="latitude"
                     label="طول جغرافیایی"
                 />
                 <NumberInput
                     source="longitude"
                     label="عرض جغرافیایی"
-                />
+                /> */}
 
+            </FormTab>
+            <FormTab label="ra.deal.location" path="location">
+                <CustomMapInput defaultValue="29.5926:52.5836" source="location" />
             </FormTab>
         </TabbedForm>
     </Edit>

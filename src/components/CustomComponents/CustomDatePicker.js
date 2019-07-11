@@ -5,7 +5,10 @@ import { DatePicker, TimePicker, DateTimePicker, MuiPickersUtilsProvider } from 
 // import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
 // import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 // import {DatePicker, MuiPickersUtilsProvider} from 'material-ui-pickers';
-import JalaliUtils from 'material-ui-pickers-jalali-utils';
+// import JalaliUtils from 'material-ui-pickers-jalali-utils';
+import MomentUtils from '@date-io/jalaali';
+// import DateFnsUtils from '@date-io/date-fns';
+// import LuxonUtils from '@date-io/luxon';
 
 const makePicker = (PickerComponent) => {
   class _makePicker extends Component {
@@ -32,7 +35,7 @@ const makePicker = (PickerComponent) => {
 
       return (
         <div className="picker">
-          <MuiPickersUtilsProvider utils={JalaliUtils} locale="fa">
+          <MuiPickersUtilsProvider utils={MomentUtils} locale="fa">
           <div>
             <PickerComponent
               okLabel="تأیید"

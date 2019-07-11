@@ -11,6 +11,7 @@ import {
 } from 'react-admin';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { minLength, number } from 'ra-core';
+import CustomMapInput from '../CustomComponents/CustomMapInput';
 
 export const styles = {
     stock: { width: '5em' },
@@ -35,37 +36,37 @@ const CompanyCreate = ({ classes, ...props }) => (
                     validate={required()}
                 />
 
-                <SelectInput 
-                    source="status" 
-                    label="وضعیت" 
+                <SelectInput
+                    source="status"
+                    label="وضعیت"
                     validate={required()}
                     choices={[
                         { id: 'active', name: 'فعال' },
                         { id: 'inactive', name: 'غیرفعال' },
-                    ]} 
+                    ]}
                 />
 
             </FormTab>
             <FormTab label="ra.company.user" path="user">
-                
-                <TextInput 
-                    label="نام کاربری" 
-                    source="username" 
+
+                <TextInput
+                    label="نام کاربری"
+                    source="username"
                     validate={required()} />
 
-                <TextInput 
-                    label="رمز عبور" 
-                    source="password" 
-                    type="password" 
+                <TextInput
+                    label="رمز عبور"
+                    source="password"
+                    type="password"
                     validate={validatePassword} />
 
-            <ReferenceInput label="نقش" source="role" reference="roles" validate={required()}>
-                <SelectInput optionText="name" />
-            </ReferenceInput>
+                <ReferenceInput label="نقش" source="role" reference="roles" validate={required()}>
+                    <SelectInput optionText="name" />
+                </ReferenceInput>
 
             </FormTab>
             <FormTab label="ra.company.contact" path="contact">
-                
+
                 <TextInput
                     source="address"
                     label="آدرس"
@@ -84,15 +85,18 @@ const CompanyCreate = ({ classes, ...props }) => (
                     validate={[required(), number()]}
                 />
 
-                <NumberInput
+                {/* <NumberInput
                     source="latitude"
                     label="طول جغرافیایی"
                 />
                 <NumberInput
                     source="longitude"
                     label="عرض جغرافیایی"
-                />
+                /> */}
 
+            </FormTab>
+            <FormTab label="ra.deal.location" path="location">
+                <CustomMapInput defaultValue="29.5926:52.5836" source="location" />
             </FormTab>
         </TabbedForm>
     </Create>

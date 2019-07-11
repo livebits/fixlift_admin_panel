@@ -55,6 +55,33 @@ import { ServiceUserCreate } from './components/serviceUsers/ServiceUserCreate';
 import { CustomerList } from './components/customers/CustomerList';
 import CustomerEdit from './components/customers/CustomerEdit';
 import CustomerCreate from './components/customers/CustomerCreate';
+import { DealList } from './components/deals/DealList';
+import DealEdit from './components/deals/DealEdit';
+import DealCreate from './components/deals/DealCreate';
+import { DeviceTypeList } from './components/deviceTypes/DeviceTypeList';
+import { DeviceTypeEdit } from './components/deviceTypes/DeviceTypeEdit';
+import { DeviceTypeCreate } from './components/deviceTypes/DeviceTypeCreate';
+import { liftFieldCategoryList } from './components/liftFieldCategories/liftFieldCategoryList';
+import { LiftFieldCategoryCreate } from './components/liftFieldCategories/liftFieldCategoryCreate';
+import { LiftFieldCategoryEdit } from './components/liftFieldCategories/liftFieldCategoryEdit';
+import { LiftFieldList } from './components/liftFields/LiftFieldList';
+import { LiftFieldCreate } from './components/liftFields/LiftFieldCreate';
+import { LiftFieldEdit } from './components/liftFields/LiftFieldEdit';
+import { ServiceList } from './components/services/ServiceList';
+import { ServiceCreate } from './components/services/ServiceCreate';
+import { ServiceEdit } from './components/services/ServiceEdit';
+import { DamageCreate } from './components/damages/DamageCreate';
+import { DamageEdit } from './components/damages/DamageEdit';
+import { DamageList } from './components/damages/DamageList';
+import { EmergencyList } from './components/emergencies/EmergencyList';
+import { EmergencyEdit } from './components/emergencies/EmergencyEdit';
+import { EmergencyCreate } from './components/emergencies/EmergencyCreate';
+import DPHCreate from './components/dealPlaceholders/DPHCreate';
+import { DPHList } from './components/dealPlaceholders/DPHList';
+import DPHEdit from './components/dealPlaceholders/DPHEdit';
+import MTCreate from './components/messageTemplates/MTCreate';
+import MTEdit from './components/messageTemplates/MTEdit';
+import { MTList } from './components/messageTemplates/MTList';
 
 // Configure JSS
 // const jss = create({plugins: [...jssPreset().plugins, rtl({opt: 'out'})]});
@@ -113,6 +140,27 @@ const myTheme = createMuiTheme({
 
 class App extends React.Component {
 
+  hasPermisstion = (permissions, requirePermission) => {
+
+    if(permissions !== null && permissions.superAdmin !== null && permissions.superAdmin === "1") {
+      return true;
+    }
+    
+    if(permissions !== null && permissions.permissions !== null) {
+      let rPermissions = JSON.parse(permissions.permissions);
+      let result = rPermissions.filter(function (perm) {
+        
+        if(perm == requirePermission) {
+          return perm;
+        }
+      });
+
+      return result.length > 0 ? true : false;
+    }
+  
+    return false;
+  }
+
   render() {
     // const { dataProvider } = this.state;
 
@@ -142,60 +190,97 @@ class App extends React.Component {
               customSagas={sagas}
             >
 
-                <Resource options={{ label: 'کاربران' }} name="users" list={UserList} edit={UserEdit} create={UserCreate} icon={SupervisorAccountRounded} />
-                <Resource options={{ label: 'نقش ها' }} name="roles" list={RoleList} edit={RoleEdit} create={RoleCreate}/>
-                <Resource options={{ label: 'شرکت ها' }} name="companies" list={CompanyList} edit={CompanyEdit} create={CompanyCreate} icon={SupervisorAccountRounded} />
-                
-                <Resource options={{ label: 'منطقه ها' }} name="regions" list={RegionList} edit={RegionEdit} create={RegionCreate} />
-                <Resource options={{ label: 'قطعات' }} name="segments" list={SegmentList} edit={SegmentEdit} create={SegmentCreate} />
-                <Resource options={{ label: 'دسته بندی چک لیست ها' }} name="checklist-categories" list={checklistCategoryList} edit={checklistCategoryEdit} create={checklistCategoryCreate} />
-                <Resource options={{ label: 'چک لیست ها' }} name="checklists" list={checklistList} edit={checklistEdit} create={checklistCreate} />
-                <Resource options={{ label: 'واحدها' }} name="units" list={UnitList} edit={UnitEdit} create={UnitCreate} />
-                <Resource options={{ label: 'سرویس کارها' }} name="service-users" list={ServiceUserList} edit={ServiceUserEdit} create={ServiceUserCreate} />
-                
-                <Resource options={{ label: 'مشتریان' }} name="customers" list={CustomerList} edit={CustomerEdit} create={CustomerCreate} />
+                {permissions => [
 
-                {/* {permissions => [
+                    this.hasPermisstion(permissions, 'users') 
+                    ? <Resource options={{ label: 'کاربران' }} name="users" list={UserList} edit={UserEdit} create={UserCreate} icon={SupervisorAccountRounded} />
+                    : null,
 
-                  permissions === 'admin' 
-                  ? 
-                  [ */}
-                    {/* <Resource options={{ label: 'ادمین' }} name="AdminManagers" list={AdminList} edit={AdminEdit} create={AdminCreate} icon={VerifiedUserRounded} />,
+                    this.hasPermisstion(permissions, 'roles') 
+                    ? <Resource options={{ label: 'نقش ها' }} name="roles" list={RoleList} edit={RoleEdit} create={RoleCreate}/>
+                    : null,
+
+                    this.hasPermisstion(permissions, 'companies') 
+                    ? <Resource options={{ label: 'شرکت ها' }} name="companies" list={CompanyList} edit={CompanyEdit} create={CompanyCreate} icon={SupervisorAccountRounded} />
+                    : null,
+
+                    this.hasPermisstion(permissions, 'regions') 
+                    ? <Resource options={{ label: 'منطقه ها' }} name="regions" list={RegionList} edit={RegionEdit} create={RegionCreate} />
+                    : null,
+
+                    // this.hasPermisstion(permissions, 'deviceTypes') 
+                    // ? 
+                    <Resource options={{ label: 'انواع دستگاه ها' }} name="device-types" list={DeviceTypeList} edit={DeviceTypeEdit} create={DeviceTypeCreate} />
+                    // : null
+                    ,
+
+                    this.hasPermisstion(permissions, 'segments') 
+                    ? <Resource options={{ label: 'قطعات' }} name="segments" list={SegmentList} edit={SegmentEdit} create={SegmentCreate} />
+                    : null,
+
+                    this.hasPermisstion(permissions, 'checklistCategories') 
+                    ? <Resource options={{ label: 'دسته بندی چک لیست ها' }} name="checklist-categories" list={checklistCategoryList} edit={checklistCategoryEdit} create={checklistCategoryCreate} />
+                    : null,
+                    this.hasPermisstion(permissions, 'checklists') 
+                    ? <Resource options={{ label: 'چک لیست ها' }} name="checklists" list={checklistList} edit={checklistEdit} create={checklistCreate} />
+                    : null,
+
+                    this.hasPermisstion(permissions, 'units') 
+                    ? <Resource options={{ label: 'واحدها' }} name="units" list={UnitList} edit={UnitEdit} create={UnitCreate} />
+                    : null,
                     
-                    <Resource options={{ label: 'مدیران شرکت ها' }} name="CompanyManagers" list={ManagerList} edit={ManagerEdit} create={ManagerCreate} icon={SupervisorAccountRounded} />,
-                  {/* ]
-                  : null,
+                    this.hasPermisstion(permissions, 'serviceUsers') 
+                    ? <Resource options={{ label: 'سرویس کارها' }} name="service-users" list={ServiceUserList} edit={ServiceUserEdit} create={ServiceUserCreate} />
+                    : null,
 
-                permissions === 'company'
-                  ? [ */}
-                    {/* <Resource options={{ label: 'مشتریان' }} name="Customers" list={CustomerList} edit={CustomerEdit} create={CustomerCreate} icon={PersonPinRounded} />,
-                    <Resource options={{ label: 'سرویس کاران' }} name="ServiceUsers" list={ServiceUserList} edit={ServiceUserEdit} create={ServiceUserCreate} icon={PeopleRounded} />,
-                    <Resource options={{ label: 'قراردادها' }} name="Deals" list={DealList} edit={DealEdit} create={DealCreate} icon={BookmarkRounded} />,
-                    <Resource options={{ label: 'خرابی ها' }} name="Damages" list={DamageList} edit={DamageEdit} create={DamageCreate} icon={PagesRounded} />,
-                    <Resource options={{ label: 'امداد' }} name="Emergencies" list={EmergencyList} edit={EmergencyEdit} create={EmergencyCreate} icon={WarningRounded} />,
-                    <Resource options={{ label: 'گزارشات' }} name="Reports" list={ReportList} edit={ReportEdit} icon={ReportRounded} />,
-                    <Resource options={{ label: 'گزارش عملکرد' }} name="serviceUsersPerformanceReport" list={PerformanceReport} icon={ReportRounded} />,
-                    <Resource options={{ label: 'فاکتورها' }} name="Factors" list={FactorList} edit={FactorEdit} icon={ReceiptRounded} />,
-                    <Resource options={{ label: 'پرداختی ها' }} name="Payments" list={FactorPaymentList} icon={PaymentRounded} />,
-                    <Resource options={{ label: 'سرویس کار روی نقشه' }} name="ServiceUsersOnMap" list={ServiceUsersOnMap} icon={MapRounded} />,
-                    <Resource options={{ label: 'امور مالی' }} name="CompanyShow" list={CompanyShow} icon={PaymentRounded} />,
-                    <Resource options={{ label: 'چک لیست' }} name="CheckLists" list={CheckList} create={CheckListCreate} edit={CheckListEdit} icon={CheckBoxRounded} />,
-                    <Resource options={{ label: 'نظرات کاربران' }} name="Comments" list={CommentsList} icon={CommentRounded} />,
-                    <Resource options={{ label: 'پیام ها' }} name="Messages" list={MessageList} show={MessageShow} create={MessageCreate} icon={MessageRounded} />,
-                    <Resource options={{ label: 'درباره ما' }} name="Settings" list={About} icon={InfoRounded} />,                  
-                    <Resource name="CustomerInspections" create={AddCustomerInspection} />,                  
+                    this.hasPermisstion(permissions, 'services') 
+                    ? <Resource options={{ label: 'سرویس ها' }} name="services" list={ServiceList} edit={ServiceEdit} create={ServiceCreate} />
+                    : null,
                     
-                    <Resource name="FactorItems" edit={FactorItemEdit}/>,
-                    <Resource name="AppUsers"/>,
-                    <Resource name="MyAppUsers"/>,
-                    <Resource name="CustomerPayment"/>,
-                    <Resource name="CompanyPayment"/>,
-                    <Resource name="importCustomers"/>,
-                    <Resource name="CustomerInspections" />, */}
-                  {/* ]
-                  : null,  
-                
-              ]} */}
+                    this.hasPermisstion(permissions, 'damages') 
+                    ? <Resource options={{ label: 'خرابی ها' }} name="damages" list={DamageList} edit={DamageEdit} create={DamageCreate} />
+                    : null,
+
+                    this.hasPermisstion(permissions, 'emergencies') 
+                    ? <Resource options={{ label: 'امداد' }} name="emergencies" list={EmergencyList} edit={EmergencyEdit} create={EmergencyCreate} />
+                    : null,
+                    
+                    this.hasPermisstion(permissions, 'customers') 
+                    ? <Resource options={{ label: 'مشتریان' }} name="customers" list={CustomerList} edit={CustomerEdit} create={CustomerCreate} />
+                    : null,
+
+                    this.hasPermisstion(permissions, 'deals') 
+                    ? <Resource options={{ label: 'قراردادها' }} name="deals" list={DealList} edit={DealEdit} create={DealCreate} />
+                    : null,
+                    
+                    this.hasPermisstion(permissions, 'dealsArchive') 
+                    ? <Resource options={{ label: 'آرشیو قراردادها' }} name="deals-archive" />
+                    : null,
+
+                    this.hasPermisstion(permissions, 'liftFieldCategories') 
+                    ? <Resource options={{ label: 'دسته بندی قطعات' }} name="lift-field-categories" list={liftFieldCategoryList} edit={LiftFieldCategoryEdit} create={LiftFieldCategoryCreate} />
+                    : null,
+                    
+                    this.hasPermisstion(permissions, 'liftFields') 
+                    ? <Resource options={{ label: 'فیلدهای آسانسور' }} name="lift-fields" list={LiftFieldList} edit={LiftFieldEdit} create={LiftFieldCreate} />
+                    : null,
+
+                    // this.hasPermisstion(permissions, 'dealPlaceholders') 
+                    // ? 
+                    <Resource options={{ label: 'فیلدهای قرارداد' }} name="deal-placeholders" list={DPHList} edit={DPHEdit} create={DPHCreate} />
+                    // : null
+                    ,
+                    
+                    // this.hasPermisstion(permissions, 'messageTemplates') 
+                    // ? 
+                    <Resource options={{ label: 'تنظیمات قالب پیامکی' }} name="message-templates" list={MTList} edit={MTEdit} create={MTCreate} />
+                    // : null
+                    ,
+
+                    this.hasPermisstion(permissions, 'companyMessageTemplates') 
+                    ? <Resource options={{ label: 'قالب پیامک' }} name="company-message-templates" />
+                    : null,
+                ]}
             </Admin>
 
           </div>

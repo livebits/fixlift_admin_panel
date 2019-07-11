@@ -1,16 +1,19 @@
 import React from 'react';
 import { ArrayField, SingleFieldList, ChipField, List, EmailField, Responsive, Datagrid, TextInput,
-     TextField, ReferenceField, EditButton, DeleteButton, Filter, SelectInput,
+     TextField, ReferenceField, EditButton, DeleteButton, BooleanField, SelectInput,
       ReferenceInput } from 'react-admin';
 
-export const checklistList = props => (
-    <List {...props} title='مدیریت چک لیست ها' >
+export const LiftFieldList = props => (
+    <List {...props} title=' فیلدهای آسانسور' >
 
         <Datagrid rowClick='edit'>
             <TextField source='id' label='کد' />
             <TextField source='title' label='عنوان' />
             <TextField source='priority' label='اولویت' />
-            <TextField source='checklistCategory' label='دسته بندی' />
+            {/* <BooleanField source='status' label='وضعیت' /> */}
+            <ReferenceField label="دسته بندی" source="liftFieldCategoryId" reference="lift-field-categories">
+                <TextField source="title" />
+            </ReferenceField>
             <EditButton />
             <DeleteButton />
         </Datagrid>

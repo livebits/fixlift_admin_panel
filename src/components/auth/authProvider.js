@@ -30,9 +30,12 @@ export default (type, params) => {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 localStorage.setItem('jwt_token', data.token);
-                localStorage.setItem('role', data.role);
+                let userRolesPermissions = data.permissions;
+
+                localStorage.setItem('role', userRolesPermissions.role);
+                localStorage.setItem('superAdmin', userRolesPermissions.superAdmin);
+                localStorage.setItem('permissions', userRolesPermissions.permissions);
             })
             // .catch( err => {
             //     err.text().then( errorMessage => {
@@ -44,6 +47,8 @@ export default (type, params) => {
     if (type === AUTH_LOGOUT) {
         localStorage.removeItem('jwt_token');
         localStorage.removeItem('role');
+        localStorage.removeItem('superAdmin');
+        localStorage.removeItem('permissions');
         return Promise.resolve();
     }
     // called when the API returns an error
@@ -64,7 +69,9 @@ export default (type, params) => {
     if (type === AUTH_GET_PERMISSIONS) {
         
         const role = localStorage.getItem('role');
-        return role ? Promise.resolve(role) : Promise.reject();
+        const superAdmin = localStorage.getItem('superAdmin');
+        const permissions = localStorage.getItem('permissions');
+        return role ? Promise.resolve({role, permissions, superAdmin}) : Promise.reject();
     }
     return Promise.reject('Unknown method');
 };

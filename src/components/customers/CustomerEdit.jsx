@@ -14,6 +14,7 @@ import {
 } from 'react-admin';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { minLength, number } from 'ra-core';
+import { CustomDateInput } from '../CustomComponents/CustomDatePicker';
 
 export const styles = {
     stock: { width: '5em' },
@@ -91,7 +92,7 @@ const CustomerEdit = ({ classes, ...props }) => (
                     label="شماره اشتراک"
                 />
 
-                <TextInput
+                <CustomDateInput
                     autoFocus
                     source="birthDate"
                     label="تاریخ تولد"

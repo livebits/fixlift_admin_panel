@@ -24,17 +24,17 @@ const API_URL = 'http://localhost:3030';
  */
 const convertDataProviderRequestToHTTP = (type, resource, params) => {
     let url = '';
-    
+
     const options = {
-        headers : new Headers({
+        headers: new Headers({
             Accept: 'application/json',
             "authorization": `Bearer ${localStorage.getItem('jwt_token')}`
         }),
-    };    
-    
+    };
+
     switch (type) {
         case GET_LIST:
-            
+
             // const { page, perPage } = params.pagination;
             // const { field, order } = params.sort;
             let query = "";
@@ -66,11 +66,11 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     url = `${API_URL}/AppUsers/MyAppUsers?filter=${JSON.stringify(query)}`;
                     break;
                 case 'ServiceUsers':
-                    query = {"where": {"roles.name": "service"}};
+                    query = { "where": { "roles.name": "service" } };
                     url = `${API_URL}/AppUsers/serviceUsers?filter=${JSON.stringify(query)}`;
                     break;
                 case 'serviceUsersPerformanceReport':
-                    query = {"where": {"roles.name": "service"}};
+                    query = { "where": { "roles.name": "service" } };
                     url = `${API_URL}/AppUsers/serviceUsersPerformanceReport?filter=${JSON.stringify(query)}`;
                     break;
                 case 'Deals':
@@ -119,14 +119,34 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 case 'Payments':
                     query = '';
                     url = `${API_URL}/Payments/AllFactorPayments?filter=${JSON.stringify(query)}`;
-                    break;    
+                    break;
+                case 'deals-archive':
+
+                    if (stringify(query) !== "") {
+
+                        url = `${API_URL}/deals/archive?filter=${JSON.stringify(query)}`;
+                    } else {
+                        url = `${API_URL}/deals/archive`;
+                    }
+                    break;
                 default:
-                    url = `${API_URL}/${resource}?filter=${stringify(query)}`;
+                    if (stringify(query) !== "") {
+
+                        url = `${API_URL}/${resource}?filter=${stringify(query)}`;
+                    } else {
+                        url = `${API_URL}/${resource}`;
+                    }
                     break;
             }
             break;
         case GET_ONE:
             switch (resource) {
+                case 'lifts/device-fields':
+                    url = `${API_URL}/lifts/device-fields/${params.deviceTypeId}`;
+                    break;
+                case 'lifts/get-device-fields':
+                    url = `${API_URL}/lifts/get-device-fields/${params.deviceTypeId}`;
+                    break;
                 case 'Customers':
                     url = `${API_URL}/AppUsers/${params.id}`;
                     break;
@@ -138,7 +158,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     break;
                 case 'GetCompanyInfo':
                     url = `${API_URL}/Settings/GetCompanyInfo`;
-                    break;  
+                    break;
                 case 'ServiceUsers':
                     url = `${API_URL}/AppUsers/${params.id}`;
                     break;
@@ -162,7 +182,12 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 case 'DashboardStats':
                     // query = '';
                     url = `${API_URL}/Managers/DashboardStats`;
-                    break;    
+                    break;
+                case 'deal-placeholders/get-table-fields':
+                    options.body = JSON.stringify(params);
+                    options.method = 'POST';
+                    url = `${API_URL}/deal-placeholders/get-table-fields`;
+                    break;
                 default:
                     url = `${API_URL}/${resource}/${params.id}`;
                     break;
@@ -170,7 +195,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             break;
         case GET_MANY: {
             const query = {
-                "where": { "id": { inq: params.ids} },
+                "where": { "id": { inq: params.ids } },
             };
             switch (resource) {
                 case 'Customers':
@@ -189,12 +214,12 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     url = `${API_URL}/${resource}?filter=${JSON.stringify(query)}`;
                     break;
             }
-            
+
             break;
         }
         case GET_MANY_REFERENCE: {
             // console.log(params);
-            
+
             const { page, perPage } = params.pagination;
             const { field, order } = params.sort;
             let query = {
@@ -224,20 +249,20 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     query = ''
                     url = `${API_URL}/Payments/AllCompanyPayments?filter=${JSON.stringify(query)}`;
                     break;
-            
+
                 default:
                     url = `${API_URL}/${resource}?filter=${JSON.stringify(query)}`;
                     break;
             }
-            
+
             break;
         }
         case UPDATE:
             url = `${API_URL}/${resource}/${params.data.id}`;
 
-            Object.keys(params.data).map(function(key, index) {
-                
-                if(params.data[key] === null) {
+            Object.keys(params.data).map(function (key, index) {
+
+                if (params.data[key] === null) {
                     delete params.data[key];
                 }
             });
@@ -245,28 +270,28 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
             switch (resource) {
                 case 'companies':
 
-                    if (params.data.location == null)  delete params.data.location;
-                    if (params.data.latitude == null)  delete params.data.latitude;
+                    if (params.data.location == null) delete params.data.location;
+                    if (params.data.latitude == null) delete params.data.latitude;
                     if (params.data.longitude == null) delete params.data.longitude;
-                    if (params.data.logo == null)      delete params.data.logo;
+                    if (params.data.logo == null) delete params.data.logo;
 
                     // url = `${API_URL}/companies/${params.data.id}`;
                     break;
                 case 'users':
 
-                    if (params.data.lastName == null)  delete params.data.lastName;
+                    if (params.data.lastName == null) delete params.data.lastName;
 
                     break;
                 case 'Settings':
-                console.log(params);
-                
+                    console.log(params);
+
                     url = `${API_URL}/Settings/UpdateSettings`;
                     break;
                 case 'Damages':
                     console.log(params);
-                    
-                        url = `${API_URL}/Damages/Update`;
-                        break;  
+
+                    url = `${API_URL}/Damages/Update`;
+                    break;
                 case 'FactorItems':
                     params.data.total = params.data.quantity * params.data.unitPrice;
                     url = `${API_URL}/FactorItems/${params.data.id}`;
@@ -289,16 +314,16 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     url = `${API_URL}/${resource}/${params.data.id}`;
                     break;
             }
-            
+
             options.method = 'PATCH';
-            
+
             options.body = JSON.stringify(params.data);
             break;
         case CREATE:
 
-            Object.keys(params.data).map(function(key, index) {
-                
-                if(params.data[key] === null) {
+            Object.keys(params.data).map(function (key, index) {
+
+                if (params.data[key] === null) {
                     delete params.data[key];
                 }
             });
@@ -333,10 +358,10 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     break;
                 case 'importCustomers':
                     url = `${API_URL}/AppUsers/ImportUsers`;
-                    
+
                     const formData = new FormData();
                     formData.append('file', params.data.file[0]);
-                    
+
                     options.body = formData;
                     break;
                 default:
@@ -344,9 +369,9 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     options.body = JSON.stringify(params.data);
                     break;
             }
-            
+
             options.method = 'POST';
-            
+
             break;
         case DELETE:
             switch (resource) {
@@ -361,7 +386,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     break;
                 case 'Emergencies':
                     url = `${API_URL}/Damages/${params.id}`;
-                    break;    
+                    break;
                 case 'AdminManagers':
                     url = `${API_URL}/Managers/${params.id}`;
                     break;
@@ -392,92 +417,99 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
     console.log(type, '>>>', resource);
     switch (type) {
         case GET_LIST:
-        
+
             return {
                 data: json,
                 total: parseInt(json.length, 10),
             };
 
         // case GET_ONE:
-            
-            // switch (resource) {
-            //     case "menu":
-                    
-            //         let menuData = json;
-            //         let menuActionsArray = [];
-            //         menuData.actions.forEach((action, index) => {
-                        
-            //             menuActionsArray[index] = action.id;
-            //         });
-            //         menuData.actions = menuActionsArray;
-                    
-            //         return {
-            //             data: menuData
-            //         };
 
-            //     case "manager":
-            //         let managerData = json;
-            //         let rolesArray = [];
-            //         managerData.roles.forEach((action, index) => {
-                        
-            //             rolesArray[index] = action.id;
-            //         });
-            //         managerData.roles = rolesArray;
-            //         console.log(">>", json);
-                    
-            //         return {
-            //             data: managerData
-            //         };
-            
-            //     default:
-            //         return {
-            //             data: json
-            //         };
-            //         break;
-            // };
+        // switch (resource) {
+        //     case "menu":
+
+        //         let menuData = json;
+        //         let menuActionsArray = [];
+        //         menuData.actions.forEach((action, index) => {
+
+        //             menuActionsArray[index] = action.id;
+        //         });
+        //         menuData.actions = menuActionsArray;
+
+        //         return {
+        //             data: menuData
+        //         };
+
+        //     case "manager":
+        //         let managerData = json;
+        //         let rolesArray = [];
+        //         managerData.roles.forEach((action, index) => {
+
+        //             rolesArray[index] = action.id;
+        //         });
+        //         managerData.roles = rolesArray;
+        //         console.log(">>", json);
+
+        //         return {
+        //             data: managerData
+        //         };
+
+        //     default:
+        //         return {
+        //             data: json
+        //         };
+        //         break;
+        // };
         case UPDATE:
-            // switch (resource) {
-            //     case "manager":
-                    
-            //         let managerData = json;
-            //         let rolesArray = [];
-            //         // menuData.roles.forEach((action, index) => {
-                        
-            //         //     rolesArray[index] = action.id;
-            //         // });
-            //         managerData.roles = rolesArray;
-            //         console.log(managerData);
-                    
-            //         return {
-            //             data: managerData
-            //         };
-            
-            //     default:
-            //         return {
-            //             data: json.map(x => x)
-            //         };
-            //         break;
-            // };
-        // case CREATE:
-            
-            // switch (resource) {
-            //     case "menu":
-            //         return { data: { ...json.menu, id: json.menu.id } };
-            
-            //     default:
-            //         return { data: { ...params.data, id: json.id } };
-            // };
-        
+            switch (resource) {
+                case "company-message-templates":
+                    return { data: { ...params.data, id: params.id } };
+                case "roles":
+                    return { data: { ...params.data, id: params.id } };
+                default:
+                    return { data: { ...params.data, id: params.id } };
+            };
+        // switch (resource) {
+        //     case "manager":
+
+        //         let managerData = json;
+        //         let rolesArray = [];
+        //         // menuData.roles.forEach((action, index) => {
+
+        //         //     rolesArray[index] = action.id;
+        //         // });
+        //         managerData.roles = rolesArray;
+        //         console.log(managerData);
+
+        //         return {
+        //             data: managerData
+        //         };
+
+        //     default:
+        //         return {
+        //             data: json.map(x => x)
+        //         };
+        //         break;
+        // };
+        case CREATE:
+
+            switch (resource) {
+                case "company-message-templates":
+                    return { data: { ...params.data, id: params.id } };
+                default:
+                    return { data: { ...params.data, id: json.id } };
+            };
+
         case DELETE:
-                        
+
             switch (resource) {
                 default:
                     return { data: { ...params.data, id: params.id } };
-            };    
-            
+            };
+
         case GET_MANY:
             return { data: json.map(x => x) };
-            
+
         case GET_MANY_REFERENCE:
             return {
                 data: json,
@@ -492,7 +524,7 @@ const convertHTTPErrorToDataProvider = (error, type, resource, params) => {
     // const { headers, json } = response;
 
     let errors = parseErrors(error);
-    return Promise.reject({ message: errors});
+    return Promise.reject({ message: errors });
 };
 
 //helper funcs
@@ -500,30 +532,30 @@ function parseErrors(err) {
 
     //handle error
     let errors = new Array();
-    if(err.error.statusCode === 401){
-        
+    if (err.error.statusCode === 401) {
+
         errors[0] = "دسترسی غیر مجاز";
         return "دسترسی غیر مجاز";
     }
-    else if(err.error.statusCode === 422) {
-        
+    else if (err.error.statusCode === 422) {
+
         let error_code = err.error.message;
         let error_parts = [];
-        
-        if(error_code.includes(":")) {
+
+        if (error_code.includes(":")) {
             error_parts = error_code.split(":");
         }
 
         let message = "";
-        
-        if(error_parts.length > 0) {
+
+        if (error_parts.length > 0) {
             message = `ra.validation.${error_parts[1]}`;
         }
-        
+
         return message;
     }
     else {
-        
+
         errors[0] = "خطای سرور رخ داده است";
         return "خطای سرور رخ داده است";
     }

@@ -117,7 +117,7 @@ export default {
         },
         menu: {
             dashboard: 'داشبورد',
-            company_dashboard: 'داشبورد شرکت',
+            company_dashboard: 'داشبورد',
             users_mgmt: 'مدیریت کاربران',
             users_list: 'لیست کاربران',
             add_user: 'افزودن کاربر',
@@ -140,6 +140,7 @@ export default {
             checklists: 'چک لیست',
             units: 'واحدها',
             password: 'تغییر رمز',
+            companyInfo: 'پروفایل',
             deals_mgmt: 'مدیریت قراردادها',
             deals_list: 'قراردادها',
             add_deal: 'قرارداد جدید',

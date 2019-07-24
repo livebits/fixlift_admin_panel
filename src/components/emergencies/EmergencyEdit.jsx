@@ -15,8 +15,9 @@ export const EmergencyEdit = props => (
     <Edit title={<Title />} {...props}>
         <SimpleForm>
             <DisabledInput label="کد " source="id" />
-            <ReferenceInput label="قرارداد" source="dealId" reference="deals" validate={required()}>
-                <AutocompleteInput optionText={query => `${query.contract_number} (${query.building_name})`} />
+            
+            <ReferenceInput label="قرارداد" source="dealId" reference="deal-names" validate={required()}>
+                <AutocompleteInput optionText={query => `${query.contractNumber} (نام ساختمان: ${query.buildingName})`} />
             </ReferenceInput>
 
             <ReferenceInput label="انتخاب سرویس کار" validate={required()} source="serviceUserId" reference="service-users">
@@ -24,14 +25,13 @@ export const EmergencyEdit = props => (
             </ReferenceInput>
 
             <CustomDateInput label="تاریخ امداد" validate={required()} source="time" />
+            <CustomDateInput label="تاریخ انجام" source="doneTime" />
 
             <LongTextInput label="گزارش سرویس کار" source="serviceUserReport" />
 
             <SelectInput source="status" label="وضعیت" optionText="name" choices={[
-                { id: 'submitted', name: 'ثبت شده' },
+                { id: 'submitted', name: 'انجام نشده' },
                 { id: 'done', name: 'انجام شده' },
-                { id: 'expired', name: 'منقضی شده' },
-                { id: 'canceled', name: 'کنسل شده' },
             ]} />
         </SimpleForm>
     </Edit>

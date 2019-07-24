@@ -35,17 +35,27 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
     switch (type) {
         case GET_LIST:
 
-            // const { page, perPage } = params.pagination;
-            // const { field, order } = params.sort;
-            let query = "";
-            // const query = {
-            //     sort: JSON.stringify([field, order]),
-            //     range: JSON.stringify([
-            //         (page - 1) * perPage,
-            //         page * perPage - 1,
-            //     ]),
-            //     filter: JSON.stringify(params.filter),
-            // };
+            let page = 0;
+            let perPage = 0;
+            if (params.pagination !== null && params.pagination !== undefined) {
+                page = params.pagination.page;
+                perPage = params.pagination.perPage;
+            }
+            if (params.sort !== null && params.sort !== undefined) {
+                const { field, order } = params.sort;
+            }
+            // let query = "";
+            let query = {
+                // sort: JSON.stringify([field, order]),
+                // range: JSON.stringify([
+                //     (page - 1) * perPage,
+                //     page * perPage - 1,
+                // ]),
+                offset: ((page - 1) * perPage),
+                limit: perPage,
+                skip: (perPage * (page - 1)),
+                where: params.filter
+            };
 
             switch (resource) {
                 case 'Customers':
@@ -89,10 +99,10 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     query = "";
                     url = `${API_URL}/Messages/CompanyMessages?filter=${stringify(query)}`;
                     break;
-                case 'Emergencies':
-                    query = "";
-                    url = `${API_URL}/Damages/AllEMGDamages?filter=${stringify(query)}`;
-                    break;
+                // case 'Emergencies':
+                //     query = "";
+                //     url = `${API_URL}/Damages/AllEMGDamages?filter=${stringify(query)}`;
+                //     break;
                 case 'CheckLists':
                     query = "";
                     url = `${API_URL}/CheckLists/AllCheckLists?filter=${stringify(query)}`;
@@ -129,10 +139,16 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                         url = `${API_URL}/deals/archive`;
                     }
                     break;
+                case 'deal-names':
+                    url = `${API_URL}/deals`;
+                    break;
+                case 'deals':
+                    url = `${API_URL}/deals/getByDetail?filter=${JSON.stringify(query)}`;
+                    break;
                 default:
                     if (stringify(query) !== "") {
 
-                        url = `${API_URL}/${resource}?filter=${stringify(query)}`;
+                        url = `${API_URL}/${resource}?filter=${JSON.stringify(query)}`;
                     } else {
                         url = `${API_URL}/${resource}`;
                     }
@@ -145,7 +161,7 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     url = `${API_URL}/lifts/device-fields/${params.deviceTypeId}`;
                     break;
                 case 'lifts/get-device-fields':
-                    url = `${API_URL}/lifts/get-device-fields/${params.deviceTypeId}`;
+                    url = `${API_URL}/lifts/get-device-fields/${params.liftId}`;
                     break;
                 case 'Customers':
                     url = `${API_URL}/AppUsers/${params.id}`;
@@ -168,9 +184,9 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 case 'AdminManagers':
                     url = `${API_URL}/Managers/${params.id}`;
                     break;
-                case 'Emergencies':
-                    url = `${API_URL}/Damages/${params.id}`;
-                    break;
+                // case 'Emergencies':
+                //     url = `${API_URL}/Damages/${params.id}`;
+                //     break;
                 case 'CustomerShow':
                     query = '';
                     url = `${API_URL}/AppUsers/CustomerShow/${params.id}`;
@@ -183,10 +199,17 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     // query = '';
                     url = `${API_URL}/Managers/DashboardStats`;
                     break;
+                case 'deal-names':
+                    // query = '';
+                    url = `${API_URL}/deals`;
+                    break;
                 case 'deal-placeholders/get-table-fields':
                     options.body = JSON.stringify(params);
                     options.method = 'POST';
                     url = `${API_URL}/deal-placeholders/get-table-fields`;
+                    break;
+                case 'company-info':
+                    url = `${API_URL}/companies/getDetail`;
                     break;
                 default:
                     url = `${API_URL}/${resource}/${params.id}`;
@@ -209,6 +232,9 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     break;
                 case 'AdminManagers':
                     url = `${API_URL}/Managers?filter=${JSON.stringify(query)}`;
+                    break;
+                case 'deal-names':
+                    url = `${API_URL}/deals?filter=${JSON.stringify(query)}`;
                     break;
                 default:
                     url = `${API_URL}/${resource}?filter=${JSON.stringify(query)}`;
@@ -301,14 +327,18 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     params.data.password = params.data.mobile;
                     url = `${API_URL}/AppUsers/${params.data.id}`;
                     break;
-                case 'Emergencies':
-                    url = `${API_URL}/Damages/${params.data.id}`;
-                    break;
+                // case 'Emergencies':
+                //     url = `${API_URL}/Damages/${params.data.id}`;
+                //     break;
                 case 'CompanyManagers':
                     url = `${API_URL}/Managers/${params.data.id}`;
                     break;
                 case 'AdminManagers':
                     url = `${API_URL}/Managers/${params.data.id}`;
+                    break;
+                case 'company-info':
+                    delete params.data.id;
+                    url = `${API_URL}/companies/update`;
                     break;
                 default:
                     url = `${API_URL}/${resource}/${params.data.id}`;
@@ -351,11 +381,11 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     url = `${API_URL}/Managers`;
                     options.body = JSON.stringify(params.data);
                     break;
-                case 'Emergencies':
-                    url = `${API_URL}/Damages`;
-                    params.data.isEMG = 1;
-                    options.body = JSON.stringify(params.data);
-                    break;
+                // case 'Emergencies':
+                //     url = `${API_URL}/Damages`;
+                //     params.data.isEMG = 1;
+                //     options.body = JSON.stringify(params.data);
+                //     break;
                 case 'importCustomers':
                     url = `${API_URL}/AppUsers/ImportUsers`;
 
@@ -384,9 +414,9 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 case 'CompanyManagers':
                     url = `${API_URL}/Managers/${params.id}`;
                     break;
-                case 'Emergencies':
-                    url = `${API_URL}/Damages/${params.id}`;
-                    break;
+                // case 'Emergencies':
+                //     url = `${API_URL}/Damages/${params.id}`;
+                //     break;
                 case 'AdminManagers':
                     url = `${API_URL}/Managers/${params.id}`;
                     break;
@@ -419,9 +449,10 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
         case GET_LIST:
 
             return {
-                data: json,
-                total: parseInt(json.length, 10),
+                data: json.data ? json.data : json,
+                total: json.total ? parseInt(json.total, 10) : parseInt(json.length, 10),
             };
+
 
         // case GET_ONE:
 

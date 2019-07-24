@@ -4,6 +4,7 @@ import { ArrayField, SingleFieldList, ChipField, List, SimpleList, Responsive, D
       ReferenceInput } from 'react-admin';
 
 import { CardActions, CreateButton, ExportButton, RefreshButton } from 'react-admin';
+import { Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 var moment = require('moment-jalaali');
 
 const Actions = ({
@@ -49,6 +50,32 @@ const BulkActionButtons = props => (
     </Fragment>
 );
 
+const castDateToJalali = (date) => {
+    
+    return (date != null && (typeof date === 'string')) ? `${moment(date, 'YYYY-M-D').format('jYYYY/jMM/jDD')}` : ''
+};
+
+const MoreDetail = ({ id, record, resource }) => (
+    <Table size="small" >
+        <TableHead>
+            <TableRow>
+                <TableCell>موبایل مشتری</TableCell>
+                <TableCell>شماره بیمه</TableCell>
+                <TableCell align="right">مبلغ بیمه</TableCell>
+                <TableCell align="right">تاریخ اتمام گارانتی</TableCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow>
+                <TableCell scope="row">{record.customer.mobile}</TableCell>
+                <TableCell align="right">{record.insurance != null ? record.insurance.insuranceNumber : ''}</TableCell>
+                <TableCell align="right">{record.insurance != null ? record.insurance.cost : ''}</TableCell>
+                <TableCell align="right">{castDateToJalali(record.warrantyFinishDate)}</TableCell>
+            </TableRow>
+        </TableBody>
+    </Table>
+);
+
 export const DealArchive = props => {
 
     let fakeProps = {
@@ -66,18 +93,18 @@ export const DealArchive = props => {
     }
 
     return <List {...fakeProps} bulkActions={false} actions={<Actions/>}  title="تاریخچه قراردادها" >
-        <Datagrid selectMode="single" >
+        <Datagrid selectMode="single" expand={<MoreDetail />}>
             <TextField label="کد" source="id" />
-            <TextField label="نام مشتری" source="customer_name" />
-            <TextField label="نام ساختمان" source="building_name" />
-            <TextField label="شماره قرارداد" source="contract_number" />
-            <FunctionField source='contract_finish_date' label="تاریخ پایان" render={record => record.contract_finish_date ? `${moment(record.contract_finish_date, 'YYYY-M-D').format('jYYYY/jMM/jDD')}` : ``} />
-            <TextField label="منطقه" source="region" />
-            <TextField label="سرویس کار" source="service_user_name" />
-            <TextField label="مبلغ ماهانه" source="cost_per_service" />
-            <TextField label="روز سرویس" source="service_day" />
-            
-            {/* <EditButton /> */}
+            <TextField label="نام مشتری" source="customer.name" />
+            <TextField label="نام ساختمان" source="buildingName" />
+            <TextField label="شماره قرارداد" source="contractNumber" />
+            <FunctionField source='contractFinishDate' label="تاریخ پایان" render={record => castDateToJalali(record.contractFinishDate)} />
+            <TextField label="منطقه" source="region.name" />
+            <TextField label="سرویس کار" source="serviceUser.name" />
+            <TextField label="مبلغ ماهانه" source="costPerService" />
+            <TextField label="روز سرویس" source="serviceDay" />
+
+            <EditButton />
             <DeleteButton />
         </Datagrid>
     </List>

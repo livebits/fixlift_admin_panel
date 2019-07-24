@@ -3,20 +3,110 @@ import { GET_LIST, GET_MANY, Responsive, withDataProvider } from 'react-admin';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
 
-import Welcome from './Welcome';
-import MonthlyRevenue from './MonthlyRevenue';
-import NbNewOrders from './NbNewOrders';
-import PendingOrders from './PendingOrders';
-import PendingReviews from './PendingReviews';
-import NewCustomers from './NewCustomers';
+import GridItem from "../CustomComponents/Grid/GridItem";
+import GridContainer from "../CustomComponents/Grid/GridContainer.jsx";
+import Card from "../CustomComponents/Card/Card.jsx";
+import CardHeader from "../CustomComponents/Card/CardHeader.jsx";
+import CardIcon from "../CustomComponents/Card/CardIcon.jsx";
+import CardFooter from "../CustomComponents/Card/CardFooter.jsx";
+import Book from "@material-ui/icons/Book";
+import {
+    Typography,
+    ListItemAvatar,
+    ListItemSecondaryAction,
+    Paper,
+    CardContent,
+    withStyles
+} from "@material-ui/core";
+import { Title } from 'react-admin';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
+import ImageIcon from "@material-ui/icons/Image";
+import WorkIcon from "@material-ui/icons/Work";
+import BeachAccessIcon from "@material-ui/icons/BeachAccess";
+import FolderIcon from "@material-ui/icons/Folder";
 
-const styles = {
-    flex: { display: 'flex' },
-    flexColumn: { display: 'flex', flexDirection: 'column' },
-    leftCol: { flex: 1, marginRight: '1em' },
-    rightCol: { flex: 1, marginLeft: '1em' },
-    singleCol: { marginTop: '2em', marginBottom: '2em' },
-};
+const styles = theme => ({
+    successText: {
+      color: "green"
+    },
+    upArrowCardCategory: {
+      width: "16px",
+      height: "16px"
+    },
+    stats: {
+      color: "#999999",
+      display: "inline-flex",
+      fontSize: "12px",
+      lineHeight: "22px",
+      height: "10px",
+      "& svg": {
+        top: "4px",
+        width: "16px",
+        height: "16px",
+        position: "relative",
+        marginRight: "3px",
+        marginLeft: "3px"
+      },
+      "& .fab,& .fas,& .far,& .fal,& .material-icons": {
+        top: "4px",
+        fontSize: "16px",
+        position: "relative",
+        marginRight: "3px",
+        marginLeft: "3px"
+      }
+    },
+    cardCategory: {
+      color: "#000000",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      paddingTop: "10px",
+      marginBottom: "0"
+    },
+    cardCategoryWhite: {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0"
+    },
+    cardTitle: {
+      color: "#3C4858",
+      marginTop: "0px",
+      minHeight: "auto",
+      fontWeight: "300",
+      fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+      marginBottom: "3px",
+      textDecoration: "none",
+      "& small": {
+        color: "#777",
+        fontWeight: "400",
+        lineHeight: "1"
+      }
+    },
+    cardTitleWhite: {
+      color: "#FFFFFF",
+      marginTop: "0px",
+      minHeight: "auto",
+      fontWeight: "300",
+      fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+      marginBottom: "3px",
+      textDecoration: "none",
+      "& small": {
+        color: "#777",
+        fontWeight: "400",
+        lineHeight: "1"
+      }
+    },
+    list: {
+      width: "100%",
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper
+    }
+  });
 
 class Dashboard extends Component {
     state = {};
@@ -34,8 +124,6 @@ class Dashboard extends Component {
 
     fetchData() {
         this.fetchOrders();
-        this.fetchReviews();
-        this.fetchCustomers();
     }
 
     async fetchOrders() {
@@ -91,88 +179,43 @@ class Dashboard extends Component {
         });
     }
 
-    async fetchReviews() {
-        const { dataProvider } = this.props;
-        const { data: reviews } = await dataProvider(GET_LIST, 'reviews', {
-            filter: { status: 'pending' },
-            sort: { field: 'date', order: 'DESC' },
-            pagination: { page: 1, perPage: 100 },
-        });
-        const nbPendingReviews = reviews.reduce(nb => ++nb, 0);
-        const pendingReviews = reviews.slice(0, Math.min(10, reviews.length));
-        this.setState({ pendingReviews, nbPendingReviews });
-        const { data: customers } = await dataProvider(GET_MANY, 'customers', {
-            ids: pendingReviews.map(review => review.customer_id),
-        });
-        this.setState({
-            pendingReviewsCustomers: customers.reduce((prev, customer) => {
-                prev[customer.id] = customer; // eslint-disable-line no-param-reassign
-                return prev;
-            }, {}),
-        });
-    }
-
-    async fetchCustomers() {
-        const { dataProvider } = this.props;
-        const aMonthAgo = new Date();
-        aMonthAgo.setDate(aMonthAgo.getDate() - 30);
-        const { data: newCustomers } = await dataProvider(
-            GET_LIST,
-            'customers',
-            {
-                filter: {
-                    has_ordered: true,
-                    first_seen_gte: aMonthAgo.toISOString(),
-                },
-                sort: { field: 'first_seen', order: 'DESC' },
-                pagination: { page: 1, perPage: 100 },
-            }
-        );
-        this.setState({
-            newCustomers,
-            nbNewCustomers: newCustomers.reduce(nb => ++nb, 0),
-        });
-    }
-
     render() {
         const {
-            nbNewCustomers,
-            nbNewOrders,
-            nbPendingReviews,
-            newCustomers,
-            pendingOrders,
-            pendingOrdersCustomers,
-            pendingReviews,
-            pendingReviewsCustomers,
-            revenue,
-        } = this.state;
+            classes,
+        } = this.props;
         return (
-            <Responsive
-                xsmall={
-                    <div>
-                        
-                    </div>
-                }
-                small={
-                    <div style={styles.flexColumn}>
-                        
-                    </div>
-                }
-                medium={
-                    <div style={styles.flex}>
-                        
-                    </div>
-                }
-            />
+            <Card>
+                <Title title="پرتال مدیریت فیکس لیفت" />
+                <CardContent>
+
+                    <GridContainer>
+
+                        <GridItem xs={12} sm={6} md={3}>
+                            <Card>
+                                <CardHeader color="success" stats icon>
+                                    <CardIcon color="success">
+                                        <Book />
+                                    </CardIcon>
+                                    <p className={classes.cardCategory}>شرکت های عضو</p>
+
+                                </CardHeader>
+                                <CardFooter stats>
+                                    <h3 className={classes.cardTitle}>54</h3>
+                                </CardFooter>
+                            </Card>
+                        </GridItem>
+                    </GridContainer>
+
+                </CardContent>
+            </Card>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    version: state.admin.ui.viewVersion,
 });
 
 export default compose(
     connect(mapStateToProps),
     withDataProvider
-)(Dashboard);
+)(withStyles(styles)(Dashboard));

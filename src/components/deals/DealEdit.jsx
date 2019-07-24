@@ -226,7 +226,7 @@ class DealEdit extends React.Component {
                                 }
 
                                 this.state.changed && this.state.selectedLiftFields &&
-                                    dataProvider(GET_ONE, "lifts/get-device-fields", { deviceTypeId: formData.deviceTypeId }).then(fields => {
+                                    dataProvider(GET_ONE, "lifts/get-device-fields", { liftId: formData.liftId }).then(fields => {
                                         formData.field = {};
 
                                         fields = fields.data;

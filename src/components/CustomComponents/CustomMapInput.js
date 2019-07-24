@@ -30,10 +30,16 @@ const getLongitude = (value, defaultValue) => {
   return (value !== null && value !== "") ? value.split(":")[1] : defaultValue.split(":")[1];
 }
 
+const setCenter = (defaultValue, inputValue) => {
+  
+  return (inputValue !== null && inputValue !== "") ? { lat: parseFloat(inputValue.split(":")[0]), lng: parseFloat(inputValue.split(":")[1])} : defaultValue;
+}
+
 const renderMapInput = ({ input, label, meta: { touched, error }, ...custom }) => (
+
     <GoogleMapReact
       bootstrapURLKeys={{ key: GOOGLE_MAP_API_KEY }}
-      defaultCenter={defaultProps.center}
+      defaultCenter={setCenter(defaultProps.center, input.value)}
       defaultZoom={defaultProps.zoom}
       onClick={({ x, y, lat, lng, event }) => {
 

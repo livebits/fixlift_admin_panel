@@ -11,12 +11,12 @@ export const ServiceCreate = props => (
     <Create title="ثبت سرویس جدید" {...props}>
         <SimpleForm>
 
-            <ReferenceInput label="قرارداد" source="dealId" reference="deals" validate={required()}>
-                <AutocompleteInput optionText={query => `${query.contract_number} (${query.building_name})`} />
+            <ReferenceInput label="قرارداد" source="dealId" reference="deal-names" validate={required()}>
+                <AutocompleteInput optionText={query => `${query.contractNumber} (نام ساختمان: ${query.buildingName})`} />
             </ReferenceInput>
 
             <ReferenceInput label="انتخاب سرویس کار" validate={required()} source="serviceUserId" reference="service-users">
-                <AutocompleteInput optionText="name" />
+                <AutocompleteInput optionText={query => `${query.name} (موبایل: ${query.mobile})`} />
             </ReferenceInput>
 
             <CustomDateInput label="تاریخ سرویس" validate={required()} source="time" />

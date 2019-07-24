@@ -24,6 +24,7 @@ export const ROLE_ACTIONS = [
     {name: "dealPlaceholders"       ,translate: "فیلدهای فرم قرارداد"        },
     {name: "messageTemplates"       ,translate: "مدیریت قالب پیامک ها"       },
     {name: "companyMessageTemplates",translate: "قالب پیامک"                  },
+    {name: "companyProfile"         ,translate: "پروفایل شرکت"                },
 ];
 
 export const ACTIONS = {
@@ -52,4 +53,5 @@ export const ACTIONS = {
     dealPlaceholders        : "فیلدهای فرم قرارداد"      ,
     messageTemplates        : "مدیریت قالب پیامک ها"     ,
     companyMessageTemplates : "قالب پیامک"               ,
+    companyProfile          : "پروفایل شرکت"             ,
 };

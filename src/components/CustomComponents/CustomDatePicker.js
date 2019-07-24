@@ -53,7 +53,7 @@ const makePicker = (PickerComponent) => {
               helperText={touched && error}
               ref={(node) => { this.picker = node; }}
               className={className}
-              labelFunc={date => (date ? type === "date" ? date.format('jYYYY/jMM/jDD') : date.format('jYYYY/jMM/jDD HH:mm:ss') : '')}
+              labelFunc={date => (date ? (type === "date" ? date.format('jYYYY/jMM/jDD') : (type === "dateTime" ? date.format('jYYYY/jMM/jDD HH:mm:ss') : type === "time" ? date.format('HH:mm:ss') : '') ) :  '')}
               value={input.value ? input.value : null}
               onChange={date => this.onChange(date)}
             />

@@ -45,55 +45,55 @@ const CustomerEdit = ({ classes, ...props }) => (
 
 
                 <TextInput
-                    autoFocus
+                    
                     source="name"
                     label="نام"
                     validate={required()}
                 />
 
                 <TextInput
-                    autoFocus
+                    
                     source="nationalCode"
                     label="کدملی"
                     validate={[required(), number()]}
                 />
 
                 <TextInput
-                    autoFocus
+                    
                     source="mobile"
                     label="موبایل"
                     validate={[required(), number()]}
                 />
 
                 <TextInput
-                    autoFocus
+                    
                     source="mobile2"
                     label="موبایل 2"
                     validate={[number()]}
                 />
 
                 <TextInput
-                    autoFocus
+                    
                     source="phone"
                     label="تلفن"
                     validate={[number()]}
                 />
 
                 <TextInput
-                    autoFocus
+                    
                     source="phone2"
                     label="تلفن 2"
                     validate={[number()]}
                 />
 
                 <TextInput
-                    autoFocus
+                    
                     source="subscriptionCode"
                     label="شماره اشتراک"
                 />
 
                 <CustomDateInput
-                    autoFocus
+                    
                     source="birthDate"
                     label="تاریخ تولد"
                 />
@@ -102,52 +102,52 @@ const CustomerEdit = ({ classes, ...props }) => (
                     {({ formData, ...rest }) => formData.type == 'company' &&
                         <div style={{ display: 'flex', flexDirection: 'column', width: 256, minWidth: 160 }}>
                             <TextInput
-                                autoFocus
+                                
                                 source="companyName"
                                 label="نام شرکت"
                                 validate={required()}
                             />
 
                             <TextInput
-                                autoFocus
+                                
                                 source="nationalId"
                                 label="شناسه ملی"
                                 validate={required()}
                             />
 
                             <TextInput
-                                autoFocus
+                                
                                 source="registerNumber"
                                 label="شماره ثبت"
                                 validate={required()}
                             />
 
                             <TextInput
-                                autoFocus
+                                
                                 source="economyCode"
                                 label="کد اقتصادی"
                             />
 
                             <TextInput
-                                autoFocus
+                                
                                 source="postalCode"
                                 label="کد پستی"
                             />
 
                             <TextInput
-                                autoFocus
+                                
                                 source="province"
                                 label="استان"
                             />
 
                             <TextInput
-                                autoFocus
+                                
                                 source="town"
                                 label="شهرستان"
                             />
 
                             <TextInput
-                                autoFocus
+                                
                                 source="city"
                                 label="شهر"
                             />

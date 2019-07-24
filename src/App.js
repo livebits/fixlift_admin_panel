@@ -82,6 +82,7 @@ import DPHEdit from './components/dealPlaceholders/DPHEdit';
 import MTCreate from './components/messageTemplates/MTCreate';
 import MTEdit from './components/messageTemplates/MTEdit';
 import { MTList } from './components/messageTemplates/MTList';
+import CompanyInfo from './components/companyInfo/CompanyInfo';
 
 // Configure JSS
 // const jss = create({plugins: [...jssPreset().plugins, rtl({opt: 'out'})]});
@@ -252,6 +253,9 @@ class App extends React.Component {
                     this.hasPermisstion(permissions, 'deals') 
                     ? <Resource options={{ label: 'قراردادها' }} name="deals" list={DealList} edit={DealEdit} create={DealCreate} />
                     : null,
+
+                    <Resource options={{ label: 'قراردادها' }} name="deal-names" />,
+                    <Resource options={{ label: 'قراردادها' }} name="company-info" edit={CompanyInfo} />,
                     
                     this.hasPermisstion(permissions, 'dealsArchive') 
                     ? <Resource options={{ label: 'آرشیو قراردادها' }} name="deals-archive" />

@@ -18,11 +18,11 @@ const styles = theme => ({
 const MySidebar = props => 
     <Responsive
         medium={
-            <Sidebar {...props} size={200} />
+            <Sidebar {...props} size={250} />
         }
 
         small={
-            <Sidebar {...props} size={200} />
+            <Sidebar {...props} size={230} />
         }
     />;
 

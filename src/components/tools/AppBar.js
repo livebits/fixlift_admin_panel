@@ -21,8 +21,8 @@ const styles = {
 const CustomUserMenu = translate(({ translate, ...props }) => (
     <UserMenu {...props}>
         <MenuItemLink
-            to="/configuration"
-            // primaryText={translate('pos.configuration')}
+            to="/company-info/1"
+            primaryText={translate('ra.menu.companyInfo')}
             leftIcon={<SettingsIcon />}
         />
     </UserMenu>

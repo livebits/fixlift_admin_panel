@@ -1,10 +1,13 @@
 import React from 'react';
-import { ArrayField, SingleFieldList, ChipField, List, EmailField, Responsive, Datagrid, TextInput,
+import { ArrayField, SingleFieldList, ChipField, List, ShowButton, Responsive, Datagrid, TextInput,
      TextField, ReferenceField, EditButton, DeleteButton, Filter, SelectInput, FunctionField,
       ReferenceInput } from 'react-admin';
+import { Typography, Button } from '@material-ui/core';
+import ListSharp from '@material-ui/icons/ListSharp';
+import Money from '@material-ui/icons/Money';
 var moment = require('moment-jalaali');
 
-const subtractDates = (startDate, finishDate) => ((new Date(finishDate)).getTime() - (new Date(startDate)).getTime())/(1000*60);
+const subtractDates = (startDate, finishDate) => Math.ceil(((new Date(finishDate)).getTime() - (new Date(startDate)).getTime())/(1000*60));
 const castDateToJalali = (date) => {
     
     return (date != null && (typeof date === 'string')) ? `${moment(date, 'YYYY-M-D').format('jYYYY/jMM/jDD')}` : ''
@@ -30,10 +33,23 @@ const ListFilter = (props) => (
     </Filter>
 );
 
+const RowStyle = (record, index) => ({
+    backgroundColor: index % 2 == 0 ? '#e2e2e2' : 'white',
+});
+
+const Aside = () => (
+    <div style={{ width: 200, margin: '1em' }}>
+        <Typography variant="title">Post details</Typography>
+        <Typography variant="body1">
+            Posts will only be published one an editor approves them
+        </Typography>
+    </div>
+);
+
 export const ServiceList = props => (
     <List {...props} bulkActions={false} undoable={false} title='مدیریت سرویس ها' filters={<ListFilter />} perPage={25}>
 
-        <Datagrid rowClick='edit'>
+        <Datagrid rowClick='edit' rowStyle={RowStyle}>
             <TextField source='id' label='کد' />
             <ReferenceField label="شماره قرارداد" source="dealId" reference="deals">
                 <TextField source="contractNumber" />
@@ -45,7 +61,16 @@ export const ServiceList = props => (
             <FunctionField source='doneDate' label='تاریخ انجام' render={record => castDateToJalali(record.doneDate)} />
             <FunctionField label='زمان سرویس (دقیقه)'  render={record => (record.finishTime != null && record.startTime != null) ? subtractDates(record.startTime, record.finishTime) : ''} />
             <FunctionField label='وضعیت'  render={record => record.status != null ? (record.status == "done" ? "انجام شده" : "انجام نشده") : ""} />
+            {/* <Button variant="text" color="primary" style={{padding: '0px 5px', minWidth: 86}} >
+                <ListSharp />
+                چک لیست
+            </Button>
+            <Button variant="text" color="primary" style={{padding: '0px 5px', minWidth: 86}} >
+                <Money />
+                فاکتور
+            </Button> */}
             <EditButton />
+            {/* <ShowButton /> */}
             <DeleteButton />
         </Datagrid>
         

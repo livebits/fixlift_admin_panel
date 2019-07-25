@@ -53,9 +53,13 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 // ]),
                 offset: ((page - 1) * perPage),
                 limit: perPage,
-                skip: (perPage * (page - 1)),
-                where: params.filter
+                skip: (perPage * (page - 1))
             };
+
+            if(params.filter) {
+                query.where = params.filter;
+            }
+
 
             switch (resource) {
                 case 'Customers':
@@ -210,6 +214,12 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                     break;
                 case 'company-info':
                     url = `${API_URL}/companies/getDetail`;
+                    break;
+                case 'services':
+                    url = `${API_URL}/services/getDetail/${params.id}`;
+                    break;
+                case 'damages':
+                    url = `${API_URL}/damages/getDetail/${params.id}`;
                     break;
                 default:
                     url = `${API_URL}/${resource}/${params.id}`;
@@ -394,7 +404,29 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
 
                     options.body = formData;
                     break;
+                case `service-segment`:
+                    
+                    url = `${API_URL}/services/${params.data.serviceId}/service-segments`;
+
+                    options.body = JSON.stringify({
+                        segmentId: params.data.serviceSegmentId,
+                        count: params.data.ServiceSegmentCount,
+                    });
+
+                    break;
+                case `damage-segment`:
+                
+                    url = `${API_URL}/damages/${params.data.damageId}/damage-segments`;
+
+                    options.body = JSON.stringify({
+                        segmentId: params.data.damageSegmentId,
+                        count: params.data.damageSegmentCount,
+                    });
+
+                    break;
                 default:
+                    console.log(params);
+                    
                     url = `${API_URL}/${resource}`;
                     options.body = JSON.stringify(params.data);
                     break;
@@ -419,6 +451,12 @@ const convertDataProviderRequestToHTTP = (type, resource, params) => {
                 //     break;
                 case 'AdminManagers':
                     url = `${API_URL}/Managers/${params.id}`;
+                    break;
+                case 'service-segments':
+                    url = `${API_URL}/services/delete-service-segments/${params.id}`;
+                    break;    
+                case 'damage-segments':
+                    url = `${API_URL}/damages/delete-damage-segments/${params.id}`;
                     break;
                 default:
                     url = `${API_URL}/${resource}/${params.id}`;
@@ -539,7 +577,10 @@ const convertHTTPResponseToDataProvider = (response, type, resource, params) => 
             };
 
         case GET_MANY:
-            return { data: json.map(x => x) };
+            return {
+                data: json.data ? json.data : json,
+                total: json.total ? parseInt(json.total, 10) : parseInt(json.length, 10),
+            };
 
         case GET_MANY_REFERENCE:
             return {

@@ -10,7 +10,7 @@ const styles = theme => ({
     
 });
 
-const CustomSidebar = props => <Sidebar {...props} size={240} style={{}} />;
+const CustomSidebar = props => <Sidebar {...props} size={210} style={{}} />;
 const CustomLayout = props => (
     <Layout {...props} appBar={AppBar} sidebar={CustomSidebar} menu={Menu} />
 );

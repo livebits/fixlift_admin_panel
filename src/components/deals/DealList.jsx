@@ -75,6 +75,7 @@ const MoreDetail = ({ id, record, resource }) => (
                 <TableCell>موبایل مشتری</TableCell>
                 <TableCell>شماره بیمه</TableCell>
                 <TableCell align="right">مبلغ بیمه</TableCell>
+                <TableCell align="right">تاریخ اتمام بیمه</TableCell>
                 <TableCell align="right">تاریخ اتمام گارانتی</TableCell>
             </TableRow>
         </TableHead>
@@ -83,6 +84,7 @@ const MoreDetail = ({ id, record, resource }) => (
                 <TableCell scope="row">{record.customer.mobile}</TableCell>
                 <TableCell align="right">{record.insurance != null ? record.insurance.insuranceNumber : ''}</TableCell>
                 <TableCell align="right">{record.insurance != null ? record.insurance.cost : ''}</TableCell>
+                <TableCell align="right">{castDateToJalali(record.insurance.finishDate)}</TableCell>
                 <TableCell align="right">{castDateToJalali(record.warrantyFinishDate)}</TableCell>
             </TableRow>
         </TableBody>

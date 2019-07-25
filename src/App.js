@@ -69,9 +69,9 @@ import { LiftFieldCreate } from './components/liftFields/LiftFieldCreate';
 import { LiftFieldEdit } from './components/liftFields/LiftFieldEdit';
 import { ServiceList } from './components/services/ServiceList';
 import { ServiceCreate } from './components/services/ServiceCreate';
-import { ServiceEdit } from './components/services/ServiceEdit';
+import ServiceEdit from './components/services/ServiceEdit';
 import { DamageCreate } from './components/damages/DamageCreate';
-import { DamageEdit } from './components/damages/DamageEdit';
+import DamageEdit from './components/damages/DamageEdit';
 import { DamageList } from './components/damages/DamageList';
 import { EmergencyList } from './components/emergencies/EmergencyList';
 import { EmergencyEdit } from './components/emergencies/EmergencyEdit';
@@ -284,6 +284,8 @@ class App extends React.Component {
                     this.hasPermisstion(permissions, 'companyMessageTemplates') 
                     ? <Resource options={{ label: 'قالب پیامک' }} name="company-message-templates" />
                     : null,
+
+                    // <Resource options={{ }} name="service-segment" />
                 ]}
             </Admin>
 

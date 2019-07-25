@@ -170,6 +170,12 @@ export default {
             general: 'اطلاعات کلی',
             user: 'اطلاعات کاربری',
         },
+        service: {
+            public: 'اطلاعات کلی',
+            checklist: 'چک لیست',
+            segments: 'قطعات',
+            factor: 'فاکتور',
+        },
         deal: {
             selectCustomer: 'انتخاب مشتری',
             selectServiceUser: 'انتخاب سرویس کار',
